@@ -1,0 +1,95 @@
+
+<div class="cancellation-page">
+  <div class="page-header">
+    <span class="eyebrow">ADMINISTRATION</span>
+    <h1>Cancellation Requests</h1>
+    <p>Review student requests and approve or reject cancellations.</p>
+  </div>
+
+  @if (actionMessage()) {
+    <div class="success-message">{{ actionMessage() }}</div>
+  }
+
+  @if (errorMessage()) {
+    <div class="error-message">{{ errorMessage() }}</div>
+  }
+
+  @if (isLoading()) {
+    <p>Loading cancellation requests...</p>
+  } @else if (requests().length === 0) {
+    <div class="empty-state">
+      <h3>No cancellation requests found</h3>
+    </div>
+  } @else {
+    <div class="table-card">
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Student</th>
+              <th>Course</th>
+              <th>Reason</th>
+              <th>Requested Date</th>
+              <th>Status</th>
+              <th>Admin Remarks</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (request of requests(); track request.cancellationRequestId) {
+              <tr>
+                <td>
+                  <strong>{{ request.studentName }}</strong>
+                  <small>{{ request.studentEmail }}</small>
+                </td>
+                <td>{{ request.courseName }}</td>
+                <td>{{ request.reason }}</td>
+                <td>{{ request.requestedAt | date:'dd MMM yyyy' }}</td>
+                <td>
+                  <span class="status-badge"
+                    [class.pending]="request.status === 0"
+                    [class.approved]="request.status === 1"
+                    [class.rejected]="request.status === 2">
+                    {{ statusLabel(request.status) }}
+                  </span>
+                </td>
+                <td>
+                  @if (request.status === 0) {
+                    <textarea
+                      rows="2"
+                      placeholder="Optional remarks"
+                     [value]="adminRemarks()[request.cancellationRequestId] || ''"
+(input)="updateRemarks(request.cancellationRequestId, $any($event.target).value)"
+                    ></textarea>
+                  } @else {
+                    {{ request.adminRemarks || '-' }}
+                  }
+                </td>
+                <td>
+                  @if (request.status === 0) {
+                    <div class="action-buttons">
+                      <button
+                        class="approve-btn"
+                        [disabled]="processingId() !== null"
+                        (click)="review(request.cancellationRequestId, 'approve')">
+                        {{ processingId() === request.cancellationRequestId ? 'Processing...' : 'Approve' }}
+                      </button>
+                      <button
+                        class="reject-btn"
+                        [disabled]="processingId() !== null"
+                        (click)="review(request.cancellationRequestId, 'reject')">
+                        Reject
+                      </button>
+                    </div>
+                  } @else {
+                    <span>Reviewed</span>
+                  }
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  }
+</div>

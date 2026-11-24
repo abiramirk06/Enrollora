@@ -209,6 +209,112 @@ td {
   font-weight: 800;
 }
 
+
+.success-message {
+  margin: 16px 0;
+  padding: 14px 18px;
+  border-radius: 8px;
+  background: #e8f7ed;
+  color: #18743a;
+}
+
+.cancel-request-btn,
+.submit-request-btn {
+  padding: 9px 14px;
+  border: none;
+  border-radius: 6px;
+  background: #4f46e5;
+  color: white;
+  cursor: pointer;
+}
+
+.cancel-request-btn:hover,
+.submit-request-btn:hover {
+  background: #3730a3;
+}
+
+.submit-request-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.request-status {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.request-status.pending {
+  background: #fff4d6;
+  color: #946200;
+}
+
+.request-status.approved {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.request-status.rejected {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.not-available {
+  color: #777;
+  font-size: 13px;
+}
+
+.cancellation-form {
+  padding: 20px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}
+
+.cancellation-form h3 {
+  margin-top: 0;
+}
+
+.cancellation-form textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px;
+  margin-top: 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  resize: vertical;
+  font: inherit;
+}
+
+.cancellation-form small {
+  display: block;
+  margin-top: 5px;
+  color: #64748b;
+  text-align: right;
+}
+
+.form-error {
+  color: #dc2626;
+  margin: 10px 0;
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.close-form-btn {
+  padding: 9px 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background: white;
+  cursor: pointer;
+}
+
+
 @media (max-width: 700px) {
   .enrollment-page {
     padding: 16px;

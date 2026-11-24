@@ -1,11 +1,16 @@
+
 <div class="enrollment-page">
   <div class="page-header">
     <div>
       <span class="eyebrow">MY LEARNING</span>
       <h1>My Enrollments</h1>
-      <p>View courses you are currently enrolled in.</p>
+      <p>View your enrolled courses and manage cancellation requests.</p>
     </div>
   </div>
+
+  @if (requestSuccess()) {
+    <div class="success-message">{{ requestSuccess() }}</div>
+  }
 
   @if (isLoading()) {
     <div class="state-card">
@@ -34,6 +39,7 @@
               <th>Course</th>
               <th>Enrollment Date</th>
               <th>Status</th>
+              <th>Cancellation</th>
             </tr>
           </thead>
           <tbody>
@@ -50,15 +56,40 @@
                     </div>
                   </div>
                 </td>
+
                 <td>{{ enrollment.enrolledAt | date: 'dd MMM yyyy' }}</td>
+
                 <td>
                   <span
                     class="status-badge"
-                    [class.active]="enrollment.status === 1"
-                    [class.cancelled]="enrollment.status !== 1"
+                    [class.active]="enrollment.status === 0"
+                    [class.cancelled]="enrollment.status === 1"
                   >
                     {{ statusLabel(enrollment.status) }}
                   </span>
+                </td>
+
+                <td>
+                  @if (getCancellationRequest(enrollment.enrollmentId); as request) {
+                    <span
+                      class="status-badge"
+                      [class.pending]="request.status === 0"
+                      [class.approved]="request.status === 1"
+                      [class.rejected]="request.status === 2"
+                    >
+                      {{ request.status === 0 ? 'Request Pending' :
+                         request.status === 1 ? 'Approved' : 'Rejected' }}
+                    </span>
+                  }
+
+                  @if (canRequestCancellation(enrollment)) {
+                    <button
+                      class="cancel-request-btn"
+                      (click)="startRequest(enrollment.enrollmentId)"
+                    >
+                      Request Cancellation
+                    </button>
+                  }
                 </td>
               </tr>
             }
@@ -71,13 +102,56 @@
           Showing {{ enrollments().length }} of {{ totalRecords() }} enrollments
         </span>
         <div>
-          <button (click)="previousPage()" [disabled]="pageNumber() === 1">Previous</button>
+          <button (click)="previousPage()" [disabled]="pageNumber() === 1">
+            Previous
+          </button>
           <span class="current-page">{{ pageNumber() }} / {{ totalPages() }}</span>
           <button
             (click)="nextPage()"
             [disabled]="pageNumber() >= totalPages()"
           >
             Next
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+
+  @if (requestingId() !== null) {
+    <div class="request-modal">
+      <div class="request-modal-content">
+        <h2>Request Course Cancellation</h2>
+        <p>Please provide a reason for cancelling this enrollment.</p>
+
+        <textarea
+          rows="5"
+          maxlength="1000"
+          placeholder="Enter your reason..."
+          [value]="reason()"
+          (input)="reason.set($any($event.target).value)"
+        ></textarea>
+
+        <small>{{ reason().length }}/1000 characters</small>
+
+        @if (requestError()) {
+          <p class="error-message">{{ requestError() }}</p>
+        }
+
+        <div class="modal-actions">
+          <button
+            class="secondary-btn"
+            (click)="closeRequest()"
+            [disabled]="submitting()"
+          >
+            Close
+          </button>
+
+          <button
+            class="cancel-request-btn"
+            (click)="submitCancellation(requestingId()!)"
+            [disabled]="submitting()"
+          >
+            {{ submitting() ? 'Submitting...' : 'Submit Request' }}
           </button>
         </div>
       </div>

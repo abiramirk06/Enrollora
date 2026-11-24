@@ -110,17 +110,6 @@
   text-align: center;
 }
 
-.nav-link.disabled {
-  opacity: 0.45;
-  cursor: default;
-}
-
-.coming-soon {
-  margin-left: auto;
-  font-size: 10px;
-  color: #d9b8ff;
-  white-space: nowrap;
-}
 
 /* SIDEBAR FOOTER */
 
@@ -275,9 +264,8 @@
     font-size: 20px;
   }
 
-  .coming-soon,
   .admin-info {
-    display: none;
+  display: none;
   }
 
   .sidebar-footer {

@@ -4,7 +4,6 @@
       <h2>Students</h2>
       <p>Manage student registrations and approvals.</p>
     </div>
-
     <div class="student-count">Total Students: {{ totalRecords }}</div>
   </div>
 
@@ -113,7 +112,6 @@
 
         <div class="filter-footer">
           <button class="btn btn-apply" (click)="applyFilters()">Apply Filters</button>
-
           <button class="btn btn-reset" (click)="clearFilters()">
             <i class="bi bi-arrow-counterclockwise"></i>
             Reset
@@ -137,14 +135,13 @@
           </thead>
 
           <tbody>
-            @for (student of students; track student.studentId) {
+            @for (student of students(); track student.studentId) {
               <tr>
                 <td>
                   <div class="student-info">
                     <div class="student-avatar">
                       {{ student.name.charAt(0).toUpperCase() }}
                     </div>
-
                     <div>
                       <strong>{{ student.name }}</strong>
                       <small>{{ student.email }}</small>
@@ -234,12 +231,11 @@
     <!-- Pagination -->
     <div class="pagination-container">
       <div class="pagination-info">
-        Showing {{ students.length }} of {{ totalRecords }} students
+        Showing {{ studentCount() }} of {{ totalRecords }} students
       </div>
 
       <div class="page-size-selector">
         <label for="pageSize">Rows per page:</label>
-
         <select
           #pageselect
           id="pageSize"
@@ -263,7 +259,9 @@
           Previous
         </button>
 
-        <span class="page-indicator"> Page {{ pageNumber }} of {{ totalPages }} </span>
+        <span class="page-indicator">
+          Page {{ pageNumber }} of {{ totalPages }}
+        </span>
 
         <button
           class="btn btn-outline-primary btn-sm"
@@ -395,7 +393,9 @@
 
         <!-- Footer -->
         <div class="student-modal-footer">
-          <button class="btn-close-modal" (click)="selectedStudent = null">Close Profile</button>
+          <button class="btn-close-modal" (click)="selectedStudent = null">
+            Close Profile
+          </button>
         </div>
       }
     </div>
@@ -413,7 +413,9 @@
           <p>Update student information</p>
         </div>
 
-        <button type="button" class="modal-close" (click)="closeEditModal()">&times;</button>
+        <button type="button" class="modal-close" (click)="closeEditModal()">
+          &times;
+        </button>
       </div>
 
       <div class="student-modal-body">
@@ -446,7 +448,9 @@
           </div>
 
           <div class="student-modal-footer">
-            <button type="button" class="btn btn-light" (click)="closeEditModal()">Cancel</button>
+            <button type="button" class="btn btn-light" (click)="closeEditModal()">
+              Cancel
+            </button>
 
             <button type="submit" class="btn-close-modal" [disabled]="studentForm.invalid">
               Update Student

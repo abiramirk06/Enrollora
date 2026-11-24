@@ -1,6 +1,7 @@
+
 <div class="admin-wrapper">
-  <!-- Sidebar -->
   <aside class="sidebar">
+
     <div class="brand">
       <span class="brand-icon">E</span>
       <span>Enrollora</span>
@@ -29,11 +30,16 @@
         Enrollments
       </a>
 
-      <div class="nav-link disabled">
+      <!-- Existing Cancellation Requests menu item -->
+      <a
+        routerLink="/admin/cancellation-requests"
+        routerLinkActive="active"
+        class="nav-link"
+      >
         <span class="nav-icon">↻</span>
         Cancellation Requests
-        <span class="coming-soon">Soon</span>
-      </div>
+      </a>
+
     </div>
 
     <div class="sidebar-footer">
@@ -43,10 +49,11 @@
         <small>System Admin</small>
       </div>
     </div>
+
   </aside>
 
-  <!-- Main area -->
   <main class="main-area">
+
     <header class="topbar">
       <div>
         <span class="topbar-title">Administration</span>
@@ -59,5 +66,6 @@
     <section class="page-content">
       <router-outlet></router-outlet>
     </section>
+
   </main>
 </div>

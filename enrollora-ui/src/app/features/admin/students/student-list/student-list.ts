@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectorRef, signal, computed } from '@angular/core';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { StudentService } from '../student.service';
 import { StudentResponse, StudentFilter, UpdateStudentRequest } from '../student.models';
@@ -17,7 +17,8 @@ export class StudentList implements OnInit {
   private studentService = inject(StudentService);
   private cdr = inject(ChangeDetectorRef);
 
-  students: StudentResponse[] = [];
+  students = signal<StudentResponse[]>([]);
+  studentCount = computed(() => this.students().length);
 
   isLoading = false;
   errorMessage = '';
@@ -51,7 +52,7 @@ export class StudentList implements OnInit {
 
     this.studentService.getStudents(this.pageNumber, this.pageSize, this.filters).subscribe({
       next: (response) => {
-        this.students = response.items;
+        this.students.set(response.items);
         this.totalRecords = response.totalRecords;
         this.totalPages = response.totalPages;
         this.pageNumber = response.pageNumber;
